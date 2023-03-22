@@ -8,11 +8,12 @@ import {HttpClientModule} from '@angular/common/http';
 import { ProductService } from './services/product.service';
 
 import {Routes, RouterModule} from '@angular/router';
+import { ProductCategoryMenuComponent } from './components/product-category-menu/product-category-menu.component';
 
 // Step 1 : Define routes
 const routes : Routes = [
   // When the path matches, create a new instance of the component
-  {path: 'category/:id', component: ProductListComponent},
+  {path: 'category/:id/:name', component: ProductListComponent},
   {path: 'category', component: ProductListComponent},
   {path: 'products', component: ProductListComponent},
   {path: '', redirectTo: '/products', pathMatch: 'full'},
@@ -22,7 +23,8 @@ const routes : Routes = [
 @NgModule({
   declarations: [
     AppComponent,
-    ProductListComponent
+    ProductListComponent,
+    ProductCategoryMenuComponent
   ],
   imports: [
     // Step 2 : Configure router based on our routes

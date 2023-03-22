@@ -14,6 +14,7 @@ export class ProductListComponent implements OnInit {
   // Step 5: Enhance ProductListComponent to read the category id
   products: Product[] = [];
   currentCategoryId: number = 1;
+  currentCategoryName: string = "";
 
   constructor(private productService: ProductService,
               // The current active route that loaded the component. Useful for
@@ -25,8 +26,8 @@ export class ProductListComponent implements OnInit {
       this.listProducts();
     });
   }
-  listProducts() {
 
+  listProducts() {
 
     // Check if "id" parameter is available
     const hasCategoryId: boolean = this.route.snapshot.paramMap.has('id');
@@ -35,8 +36,12 @@ export class ProductListComponent implements OnInit {
       // get the id param string and convert it to number using +operator, also make
       // note of the non-null assertion
       this.currentCategoryId = +this.route.snapshot.paramMap.get('id')!;
+
+      this.currentCategoryName = this.route.snapshot.paramMap.get('name')!;
+
     } else {
       this.currentCategoryId = 1;
+      this.currentCategoryName = 'Books';
     }
 
     // Method in the service is only invoked once we subscribe
