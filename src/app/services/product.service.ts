@@ -11,6 +11,7 @@ import { ProductCategory } from '../common/product-category';
 export class ProductService {
 
 
+
   private baseUrl = 'http://localhost:8080/api/products';
   private categoryUrl = 'http://localhost:8080/api/product-category';
 
@@ -21,8 +22,18 @@ export class ProductService {
   getProductList(categoryId: number): Observable<Product[]> {
 
     // need to build url based on category id
-    const searchUrl = `${this.baseUrl}/search/findByCategoryId?id=${categoryId}`
+    const searchUrl = `${this.baseUrl}/search/findByCategoryId?id=${categoryId}`;
 
+    return this.getProducts(searchUrl);
+  }
+
+  searchProducts(searchKeyword: string): Observable<Product[]> {
+     const searchUrl = `${this.baseUrl}/search/findByNameContaining?name=${searchKeyword}`;
+
+     return this.getProducts(searchUrl);
+  }
+
+  private getProducts(searchUrl: string) {
     return this.httpClient.get<GetResponseProducts>(searchUrl).pipe(
       map(response => response._embedded.products)
     );

@@ -9,10 +9,12 @@ import { ProductService } from './services/product.service';
 
 import {Routes, RouterModule} from '@angular/router';
 import { ProductCategoryMenuComponent } from './components/product-category-menu/product-category-menu.component';
+import { SearchComponent } from './components/search/search.component';
 
 // Step 1 : Define routes
 const routes : Routes = [
   // When the path matches, create a new instance of the component
+  {path: 'search/:keyword', component: ProductListComponent},
   {path: 'category/:id/:name', component: ProductListComponent},
   {path: 'category', component: ProductListComponent},
   {path: 'products', component: ProductListComponent},
@@ -24,7 +26,8 @@ const routes : Routes = [
   declarations: [
     AppComponent,
     ProductListComponent,
-    ProductCategoryMenuComponent
+    ProductCategoryMenuComponent,
+    SearchComponent
   ],
   imports: [
     // Step 2 : Configure router based on our routes
