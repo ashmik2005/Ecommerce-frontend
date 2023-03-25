@@ -11,6 +11,7 @@ import {Routes, RouterModule} from '@angular/router';
 import { ProductCategoryMenuComponent } from './components/product-category-menu/product-category-menu.component';
 import { SearchComponent } from './components/search/search.component';
 import { ProductDetailsComponent } from './components/product-details/product-details.component';
+import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 
 // Step 1 : Define routes
 const routes : Routes = [
@@ -36,7 +37,10 @@ const routes : Routes = [
     // Step 2 : Configure router based on our routes
     RouterModule.forRoot(routes),
     BrowserModule,
-    HttpClientModule
+    HttpClientModule,
+    // Exposes the exported declarations in NgbModule (classes, interfaces, constants etc)
+    // and makes them available in the current module
+    NgbModule
   ],
   providers: [ProductService],
   bootstrap: [AppComponent]
