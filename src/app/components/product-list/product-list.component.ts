@@ -20,8 +20,10 @@ export class ProductListComponent implements OnInit {
 
   // New properties for pagination
   pageNumber: number = 1;
-  pageSize: number = 10;
+  pageSize: number = 5;
   totalElements: number = 0;
+
+  previousKeyword: string = "";
 
 
   constructor(private productService: ProductService,
@@ -49,12 +51,21 @@ export class ProductListComponent implements OnInit {
 
     const searchKeyword: string = this.route.snapshot.paramMap.get('keyword')!;
 
+    /**
+     * If previous search keyword is different, then set the page number to 1
+    **/
+   if (this.previousKeyword != searchKeyword) {
+    this.pageNumber = 1;
+   }
+
+   this.previousKeyword = searchKeyword;
+
+   console.log(`keyword=${searchKeyword}, pageNumber=${this.pageNumber}`);
+
     // now search for the products using keyword
-    this.productService.searchProducts(searchKeyword).subscribe(
-      data => {
-        this.products = data;
-      }
-    );
+    this.productService.searchProductsPaginated(this.pageNumber - 1,
+                                                this.pageSize,
+                                                searchKeyword).subscribe(this.processResult());
 
   }
 
@@ -96,15 +107,23 @@ export class ProductListComponent implements OnInit {
     // Method in the service is only invoked once we subscribe
     // Get the product list for current category id
     this.productService.getProductListPaginated(this.pageNumber - 1, this.pageSize, this.currentCategoryId)
-                       .subscribe(
-                        data => {
-                          this.products = data._embedded.products;
-                          this.pageNumber = data.page.number + 1; // Pages in Spring Data REST are 0-based, whereas in ng they are 1-based
-                          this.pageSize = data.page.size;
-                          this.totalElements = data.page.totalElements;
-                        }
-                       );
+                       .subscribe(this.processResult());
 
+  }
+
+  updatePageSize(pageSize: string) {
+    this.pageSize = +pageSize;
+    this.pageNumber = 1;
+    this.listProducts();
+  }
+
+  processResult() {
+    return (data:any) => {
+      this.products = data._embedded.products;
+      this.pageNumber = data.page.number + 1;
+      this.pageSize = data.page.size;
+      this.totalElements = data.page.totalElements;
+    }
   }
 
 }

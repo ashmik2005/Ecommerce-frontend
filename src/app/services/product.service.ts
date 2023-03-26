@@ -40,6 +40,15 @@ export class ProductService {
      return this.getProducts(searchUrl);
   }
 
+  searchProductsPaginated(pageNumber: number,
+                          pageSize: number,
+                          searchKeyword: string): Observable<GetResponseProducts> {
+    const searchUrl = `${this.baseUrl}/search/findByNameContaining?name=${searchKeyword}`
+                       + `&page=${pageNumber}&size=${pageSize}`;
+
+    return this.httpClient.get<GetResponseProducts>(searchUrl);
+  }
+
   private getProducts(searchUrl: string) {
     return this.httpClient.get<GetResponseProducts>(searchUrl).pipe(
       map(response => response._embedded.products)
