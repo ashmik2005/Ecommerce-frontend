@@ -14,10 +14,13 @@ import { ProductDetailsComponent } from './components/product-details/product-de
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { CartStatusComponent } from './components/cart-status/cart-status.component';
 import { CartDetailsComponent } from './components/cart-details/cart-details.component';
+import { CheckoutComponent } from './components/checkout/checkout.component';
+import { ReactiveFormsModule } from '@angular/forms';
 
 // Step 1 : Define routes
 const routes : Routes = [
   // When the path matches, create a new instance of the component
+  {path: 'checkout', component: CheckoutComponent},
   {path: 'cart-details', component: CartDetailsComponent},
   {path: 'products/:id', component: ProductDetailsComponent},
   {path: 'search/:keyword', component: ProductListComponent},
@@ -36,7 +39,8 @@ const routes : Routes = [
     SearchComponent,
     ProductDetailsComponent,
     CartStatusComponent,
-    CartDetailsComponent
+    CartDetailsComponent,
+    CheckoutComponent,
   ],
   imports: [
     // Step 2 : Configure router based on our routes
@@ -45,7 +49,8 @@ const routes : Routes = [
     HttpClientModule,
     // Exposes the exported declarations in NgbModule (classes, interfaces, constants etc)
     // and makes them available in the current module
-    NgbModule
+    NgbModule,
+    ReactiveFormsModule
   ],
   providers: [ProductService],
   bootstrap: [AppComponent]
