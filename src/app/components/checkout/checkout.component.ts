@@ -29,6 +29,8 @@ export class CheckoutComponent implements OnInit {
   creditCardYears: number[] = [];
   checkoutFormGroup: FormGroup;
 
+  storage: Storage = sessionStorage;
+
   constructor(private formBuilder: FormBuilder,
               private luv2ShopFormService: Luv2ShopFormService,
               private cartService: CartService,
@@ -39,11 +41,13 @@ export class CheckoutComponent implements OnInit {
 
     this.reviewCartDetails();
 
+    const userEmail = JSON.parse(this.storage.getItem('userEmail')!);
+
     this.checkoutFormGroup = this.formBuilder.group({
       customer: this.formBuilder.group({
         firstName: new FormControl('', [Validators.required, Validators.minLength(2), Luv2ShopValidators.onlyWhitespace]),
         lastName: new FormControl('', [Validators.required, Validators.minLength(2), Luv2ShopValidators.onlyWhitespace]),
-        email: new FormControl('',
+        email: new FormControl(userEmail,
                               [Validators.required, Validators.pattern('^[a-z0-9._%+-]+@[a-z0-9._%+-]+\\.[a-z]{2,4}$')])
       }),
 
